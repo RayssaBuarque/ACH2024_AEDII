@@ -35,6 +35,44 @@ bool detectorCiclos(VERTICE *g, int i, bool ciclos){
     return ciclos;
 }
 
+/*
+    VARIAÇÃO:
+    Variação 1: remover as arestas que provocam ciclo.
+*/
+void eliminarCiclos(VERTICE *g, int i){
+    if(g == NULL) return;
+
+    NO *p = g[i].inicio;
+    NO *ant = NULL;
+    g[i].flag = 1; // DESCOBERTO
+    
+    while(p){
+        if(g[p->adj].flag == 0){
+            g[p->adj].via = i;
+            eliminarCiclos(g, p->adj);
+            ant = p;
+            p = p->prox;
+            continue;
+        }
+        if(g[p->adj].flag == 1 && g[i].via != p->adj){
+            if(ant == NULL){
+                g[i].inicio = p->prox; // remove o primeiro nó
+                free(p);
+                p = g[i].inicio;
+                printf("\nremovendo conexão em %d\n", i);
+                continue;
+            }
+            
+            ant->prox = p->prox; // remove o nó atual
+            free(p);
+            p = ant->prox;
+            continue;
+        }
+        ant = p;
+        p = p->prox;
+    }
+}
+
 
 /**************** FUNÇÃO DO MAIN ******************/
 int main() {
@@ -46,12 +84,16 @@ int main() {
     inserirAresta(g, 2, 4);
     inserirAresta(g, 3, 4);
     inserirAresta(g, 3, 1);
-    // inserirAresta(g, 4, 1);
+    inserirAresta(g, 4, 1);
     inserirAresta(g, 4, 2);
 
     exibirGrafo(g);
 
     printf("Ha ciclo? %d\n", detectorCiclos(g, 1, false));
+
+    zerarFlags(g);
+    eliminarCiclos(g, 1);
+    exibirGrafo(g);
 
     
     return 0;

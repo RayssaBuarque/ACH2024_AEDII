@@ -118,7 +118,7 @@ int main(){
 
     // Incluindo os quatro vértices numa instância de grafo
     VERTICE *g = (VERTICE*) malloc(sizeof(VERTICE)*(v+1));
-    
+
     inicializarGrafo(g);
 
     // Inserindo arestas
