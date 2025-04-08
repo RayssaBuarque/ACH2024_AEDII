@@ -4,6 +4,20 @@
 
 #define v 5
 
+void exibirFlags_M(int flags[(v+1)]){
+    printf("EXIBINDO FLAGS:\n");
+    
+    int i;
+    for(i = 1; i<=v; i++)
+        printf("V%d - %d\n", i, flags[i]);
+}
+
+void zerarFlags_M(int flags[(v+1)]){
+    int i;
+    for(i = 1; i<=v; i++)
+        flags[i] = 0;
+}
+
 bool inicializarMatriz(int m[(v+1)][(v+1)]){
     // verificando se matriz existe
     if(m == NULL)
